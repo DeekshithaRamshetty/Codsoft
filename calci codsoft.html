@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Calculator</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .calculator {
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 300px;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .screen {
+            margin-bottom: 10px;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            height: 40px;
+            text-align: right;
+            font-size: 1.5em;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            padding: 5px;
+            box-sizing: border-box;
+            outline: none;
+        }
+
+        .keys {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+        }
+
+        button {
+            width: 100%;
+            height: 50px;
+            font-size: 1.2em;
+            border: none;
+            border-radius: 5px;
+            background-color: #f0f0f0;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #e0e0e0;
+        }
+
+        .operator {
+            background-color: #fcbf49;
+            color: #ffffff;
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-5">
+        <div class="calculator">
+            <div class="screen">
+                <input type="text" id="result" disabled class="form-control">
+            </div>
+            <div class="keys">
+                <button class="operator" onclick="appendToResult('+')">+</button>
+                <button class="operator" onclick="appendToResult('-')">-</button>
+                <button class="operator" onclick="appendToResult('*')">*</button>
+                <button class="operator" onclick="appendToResult('/')">/</button>
+                <button onclick="clearResult()">C</button>
+                <button onclick="calculateResult()">=</button>
+                <button onclick="appendToResult('9')">9</button>
+                <button onclick="appendToResult('8')">8</button>
+                <button onclick="appendToResult('7')">7</button>
+                <button onclick="appendToResult('6')">6</button>
+                <button onclick="appendToResult('5')">5</button>
+                <button onclick="appendToResult('4')">4</button>
+                <button onclick="appendToResult('3')">3</button>
+                <button onclick="appendToResult('2')">2</button>
+                <button onclick="appendToResult('1')">1</button>
+                <button onclick="appendToResult('0')">0</button>
+                <button onclick="appendToResult('.')">.</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@1.16.1/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <script>
+        let currentInput = '';
+        let operator = '';
+        let previousInput = '';
+        let result = '';
+
+        const resultInput = document.getElementById('result');
+
+        function appendToResult(value) {
+            if (value === '.' && currentInput.includes('.')) return; // Prevent multiple decimal points
+            currentInput += value;
+            resultInput.value = currentInput;
+        }
+
+        function clearResult() {
+            currentInput = '';
+            previousInput = '';
+            operator = '';
+            result = '';
+            resultInput.value = '';
+        }
+
+        function calculateResult() {
+            if (currentInput === '' || previousInput === '') return;
+
+            const num1 = parseFloat(previousInput);
+            const num2 = parseFloat(currentInput);
+
+            switch (operator) {
+                case '+':
+                    result = num1 + num2;
+                    break;
+                case '-':
+                    result = num1 - num2;
+                    break;
+                case '*':
+                    result = num1 * num2;
+                    break;
+                case '/':
+                    result = num1 / num2;
+                    break;
+                default:
+                    return;
+            }
+
+            resultInput.value = result.toString();
+            currentInput = result.toString();
+            previousInput = '';
+            operator = '';
+        }
+    </script>
+</body>
+</html>
+
